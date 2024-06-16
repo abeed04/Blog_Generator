@@ -1,8 +1,11 @@
 import streamlit as st
+import os
+import langchain
 from langchain.prompts import PromptTemplate
 import google.generativeai as genai
 
-Gemini_Key = st.secrets['API_key']
+os.environ['Key'] = st.secrets['API_key']
+genai.configure(api_key=os.environ['Key'])
 
 ## Function To get response from Gemini model
 
@@ -19,7 +22,7 @@ def getLLamaresponse(input_text, no_words, blog_style):
     prompt = PromptTemplate(input_variables=["blog_style", "input_text", 'no_words'],
                             template=template)
 
-    ## Generate the ressponse from the LLama 2 model
+    ## Generate the ressponse from the Gemini model
     response = llm.generate_content(prompt.format(blog_style=blog_style, input_text=input_text, no_words=no_words))
     print(response.text)
     return response.text
